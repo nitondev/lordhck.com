@@ -1,0 +1,9 @@
+{% extends "base.j2" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<article>
+<br>
+  {% if date %}<p><em>{{ date }}</em></p>{% endif %}
+  {{ content | safe }}
+</article>
+{% endblock %}

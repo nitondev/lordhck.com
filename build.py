@@ -1,0 +1,145 @@
+from pathlib import Path
+import os
+import shutil
+import subprocess
+import markdown
+import yaml
+from xml.sax.saxutils import escape
+from jinja2 import Environment, FileSystemLoader
+from datetime import datetime, date
+
+# Jinja setup
+env = Environment(loader=FileSystemLoader("templates"))
+index_template = env.get_template("index.j2")
+post_template = env.get_template("post.j2")
+notfound_template = env.get_template("404.j2")
+
+# Paths
+DIST = Path("dist")
+POSTS_DIR = Path("posts")
+STATIC_DIR = Path("static")
+
+# Clean dist
+if DIST.exists():
+    shutil.rmtree(DIST)
+
+(DIST / "posts").mkdir(parents=True, exist_ok=True)
+(DIST / "static").mkdir(parents=True, exist_ok=True)
+
+# Date formatting (display)
+def format_date(value):
+    if not value:
+        return "", "", None
+
+    if isinstance(value, datetime):
+        dt = value.date()
+    elif isinstance(value, date):
+        dt = value
+    else:
+        dt = datetime.strptime(value, "%Y-%m-%d").date()
+
+    return dt.strftime("%d %b %Y"), dt.strftime("%a, %d %b %Y"), dt
+
+# Load markdown post
+def load_post(path: Path):
+    text = path.read_text()
+
+    meta = {}
+    body = text
+
+    if text.startswith("---"):
+        _, fm, body = text.split("---", 2)
+        meta = yaml.safe_load(fm) or {}
+
+    html = markdown.markdown(body)
+
+    formatted_date, formatted_date_long, raw_date = format_date(meta.get("date"))
+
+    return {
+        "title": meta.get("title", path.stem),
+        "date": formatted_date,
+        "date_long": formatted_date_long,
+        "date_raw": raw_date,
+        "tag": meta.get("tag", "untagged"),
+        "slug": path.stem,
+        "content": html,
+        "url": f"/posts/{path.stem}.html"
+    }
+
+# Resolve commit hash
+try:
+    commit_short = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True).strip()
+    commit_full = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+except Exception:
+    commit_short = os.environ.get("COMMIT", "unknown")
+    commit_full = os.environ.get("COMMIT_FULL", commit_short)
+
+# Build posts
+posts = []
+
+for file in POSTS_DIR.glob("*.md"):
+    post = load_post(file)
+    posts.append(post)
+
+    print(f"Writing post: {post['slug']}.html")
+
+    output = post_template.render(
+        title=post["title"],
+        date=post["date_long"],
+        content=post["content"],
+        commit_short=commit_short,
+        commit_full=commit_full
+    )
+
+    (DIST / "posts" / f"{post['slug']}.html").write_text(output)
+
+# Sort posts (NEWEST FIRST)
+posts.sort(key=lambda x: x["date_raw"] or date.min, reverse=True)
+
+# Build index
+index_html = index_template.render(posts=posts, commit_short=commit_short, commit_full=commit_full)
+(DIST / "index.html").write_text(index_html)
+
+# Build 404 page
+(DIST / "404.html").write_text(notfound_template.render(commit_short=commit_short, commit_full=commit_full))
+
+# Copy static files
+shutil.copytree(STATIC_DIR, DIST / "static", dirs_exist_ok=True)
+
+# Copy CNAME for GitHub Pages
+if Path("CNAME").exists():
+    shutil.copy("CNAME", DIST / "CNAME")
+
+# RSS feed
+def build_feed(posts):
+    items = []
+
+    for post in posts:
+        if not post["date_raw"]:
+            continue
+
+        items.append(f"""
+        <item>
+            <title>{escape(post['title'])}</title>
+            <link>https://lordhck.com{post['url']}</link>
+            <description>{escape(post['title'])}</description>
+            <pubDate>{post['date_raw'].strftime('%a, %d %b %Y %H:%M:%S +0000')}</pubDate>
+            <guid>https://lordhck.com{post['url']}</guid>
+        </item>
+        """)
+
+    return f"""<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+    <title>Lordhck</title>
+    <link>https://lordhck.com</link>
+    <description>Personal blog</description>
+    {''.join(items)}
+</channel>
+</rss>
+"""
+
+feed_xml = build_feed(posts)
+(DIST / "feed.xml").write_text(feed_xml)
+
+print("Build complete.")

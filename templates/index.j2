@@ -1,0 +1,24 @@
+{% extends "base.j2" %}
+{% block title %}index{% endblock %}
+{% block content %}
+<article>
+<br>
+<p><span id="age"></span>, self taught, maker of things.</p>
+<p>
+<a href="/">/index</a> <a href="/whoami">/whoami</a>
+</p>
+<ul>
+{% for post in posts %}
+<li class="g">
+  <span>
+    <span class="d">{{ post.date }}</span>&nbsp;
+    <a href="{{ post.url }}">{{ post.title }}</a>
+  </span>
+  <span>
+    &nbsp; #<a href="/tags/{{ post.tag }}">{{ post.tag }}</a>
+  </span>
+</li>
+{% endfor %}
+</ul>
+</article>
+{% endblock %}
