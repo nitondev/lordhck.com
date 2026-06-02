@@ -4,7 +4,7 @@ date: 2026-06-02
 tag: tech
 ---
 
-## Hello world!
+# Hello world!
 
 This is the first post on my site. I originally tried to build a small Python project that generates pages from Markdown and YAML frontmatter.
 
