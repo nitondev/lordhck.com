@@ -16,7 +16,7 @@ notfound_template = env.get_template("404.j2")
 
 # Paths
 DIST = Path("dist")
-POSTS_DIR = Path("posts")
+POSTS_DIR = Path("content/posts")
 STATIC_DIR = Path("static")
 
 # Clean dist
