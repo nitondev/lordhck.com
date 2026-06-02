@@ -20,5 +20,8 @@
 </li>
 {% endfor %}
 </ul>
+<p>
+{% for tag in tags %}#<a href="/tags/{{ tag }}">{{ tag }}</a> {% endfor %}
+</p>
 </article>
 {% endblock %}

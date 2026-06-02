@@ -98,7 +98,8 @@ for file in POSTS_DIR.glob("*.md"):
 posts.sort(key=lambda x: x["date_raw"] or date.min, reverse=True)
 
 # Build index
-index_html = index_template.render(posts=posts, commit_short=commit_short, commit_full=commit_full)
+tags = sorted({post["tag"] for post in posts if post["tag"]})
+index_html = index_template.render(posts=posts, tags=tags, commit_short=commit_short, commit_full=commit_full)
 (DIST / "index.html").write_text(index_html)
 
 # Build 404 page
