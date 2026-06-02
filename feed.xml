@@ -5,5 +5,13 @@
     <link>https://lordhck.com</link>
     <description>Personal blog</description>
     
+        <item>
+            <title>hello world</title>
+            <link>https://lordhck.com/post/hello-world.html</link>
+            <description>hello world</description>
+            <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
+            <guid>https://lordhck.com/post/hello-world.html</guid>
+        </item>
+        
 </channel>
 </rss>
