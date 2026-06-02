@@ -8,7 +8,7 @@ tag: tech
 
 This is the first post on my site. I originally tried to build a small Python project that generates pages from Markdown and YAML frontmatter.
 
-It ended up being a bit more than just a simple SSG.
+It ended up being a bit more than just a simple [SSG](https://en.wikipedia.org/wiki/Static_site_generator).
 
 It uses GitHub as the hosting layer, Docker to keep builds consistent, and a GitHub Actions workflow to run the Python build script and deploy everything automatically.
 
