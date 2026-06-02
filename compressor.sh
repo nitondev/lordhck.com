@@ -32,6 +32,7 @@ for img in "${images[@]}"; do
 
     echo "  [convert] $img -> $webp"
     cwebp -q 80 -quiet "$img" -o "$webp"
+    rm "$img"
     ((converted++)) || true
 done
 
