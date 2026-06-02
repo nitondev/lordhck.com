@@ -1,0 +1,26 @@
+{% extends "base.j2" %}
+{% block title %}#{{ tag }}{% endblock %}
+{% block head %}
+<meta name="description" content="Posts tagged #{{ tag }}">
+<link rel="canonical" href="https://lordhck.com/tags/{{ tag }}">
+{% endblock %}
+{% block content %}
+<article>
+<br>
+<p>#{{ tag }}</p>
+<ul>
+{% for post in posts %}
+<li class="g">
+  <span>
+    <span class="d">{{ post.date }}</span>&nbsp;
+    <a href="{{ post.url }}">{{ post.title }}</a>
+  </span>
+  <span>
+    &nbsp; #<a href="/tags/{{ post.tag }}">{{ post.tag }}</a>
+  </span>
+</li>
+{% endfor %}
+</ul>
+<p><a href="/"><= index</a></p>
+</article>
+{% endblock %}

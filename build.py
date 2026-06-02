@@ -12,6 +12,7 @@ from datetime import datetime, date
 env = Environment(loader=FileSystemLoader("templates"))
 index_template = env.get_template("index.j2")
 post_template = env.get_template("post.j2")
+tag_template = env.get_template("tag.j2")
 notfound_template = env.get_template("404.j2")
 
 # Paths
@@ -101,6 +102,15 @@ posts.sort(key=lambda x: x["date_raw"] or date.min, reverse=True)
 tags = sorted({post["tag"] for post in posts if post["tag"]})
 index_html = index_template.render(posts=posts, tags=tags, commit_short=commit_short, commit_full=commit_full)
 (DIST / "index.html").write_text(index_html)
+
+# Build tag pages
+for tag in tags:
+    tag_posts = [p for p in posts if p["tag"] == tag]
+    tag_dir = DIST / "tags" / tag
+    tag_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Writing tag page: tags/{tag}")
+    tag_html = tag_template.render(tag=tag, posts=tag_posts, commit_short=commit_short, commit_full=commit_full)
+    (tag_dir / "index.html").write_text(tag_html)
 
 # Build 404 page
 (DIST / "404.html").write_text(notfound_template.render(commit_short=commit_short, commit_full=commit_full))
