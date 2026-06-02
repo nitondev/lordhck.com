@@ -1,6 +1,6 @@
 ---
 title: hello world
-date: 2026-06-02
+date: 2026-06-02 16:17
 tag: tech
 ---
 

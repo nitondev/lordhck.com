@@ -33,13 +33,22 @@ def format_date(value):
         return "", "", None
 
     if isinstance(value, datetime):
-        dt = value.date()
+        dt_date = value.date()
+        long = value.strftime("%a, %d %b %Y, %H:%M")
     elif isinstance(value, date):
-        dt = value
+        dt_date = value
+        long = value.strftime("%a, %d %b %Y")
     else:
-        dt = datetime.strptime(value, "%Y-%m-%d").date()
+        try:
+            value = datetime.strptime(value, "%Y-%m-%d %H:%M")
+            dt_date = value.date()
+            long = value.strftime("%a, %d %b %Y, %H:%M")
+        except ValueError:
+            value = datetime.strptime(value, "%Y-%m-%d").date()
+            dt_date = value
+            long = value.strftime("%a, %d %b %Y")
 
-    return dt.strftime("%d %b %Y"), dt.strftime("%a, %d %b %Y"), dt
+    return dt_date.strftime("%d %b %Y"), long, dt_date
 
 # Load markdown post
 def load_post(path: Path):
