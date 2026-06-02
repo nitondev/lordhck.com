@@ -1,5 +1,9 @@
 {% extends "base.j2" %}
 {% block title %}{{ title }}{% endblock %}
+{% block head %}
+<meta name="description" content="{{ title }}">
+<link rel="canonical" href="https://lordhck.com{{ url }}">
+{% endblock %}
 {% block content %}
 <article>
 <br>

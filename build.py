@@ -87,6 +87,7 @@ for file in POSTS_DIR.glob("*.md"):
         title=post["title"],
         date=post["date_long"],
         content=post["content"],
+        url=post["url"],
         commit_short=commit_short,
         commit_full=commit_full
     )
