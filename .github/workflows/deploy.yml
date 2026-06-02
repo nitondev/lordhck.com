@@ -14,11 +14,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build site
         run: |
-          docker build -t lordhck \
+          docker buildx build -t lordhck \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max \
             --build-arg COMMIT=$(git rev-parse --short HEAD) \
             --build-arg COMMIT_FULL=$(git rev-parse HEAD) \
+            --load \
             .
           docker create --name lordhck-out lordhck
           docker cp lordhck-out:/app/dist ./dist
