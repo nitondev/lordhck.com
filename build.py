@@ -33,22 +33,21 @@ def format_date(value):
         return "", "", None
 
     if isinstance(value, datetime):
-        dt_date = value.date()
-        long = value.strftime("%a, %d %b %Y, %H:%M")
+        dt = value
+        long = dt.strftime("%a, %d %b %Y, %H:%M")
     elif isinstance(value, date):
-        dt_date = value
-        long = value.strftime("%a, %d %b %Y")
+        dt = datetime(value.year, value.month, value.day)
+        long = dt.strftime("%a, %d %b %Y")
     else:
         try:
-            value = datetime.strptime(value, "%Y-%m-%d %H:%M")
-            dt_date = value.date()
-            long = value.strftime("%a, %d %b %Y, %H:%M")
+            dt = datetime.strptime(value, "%Y-%m-%d %H:%M")
+            long = dt.strftime("%a, %d %b %Y, %H:%M")
         except ValueError:
-            value = datetime.strptime(value, "%Y-%m-%d").date()
-            dt_date = value
-            long = value.strftime("%a, %d %b %Y")
+            d = datetime.strptime(value, "%Y-%m-%d").date()
+            dt = datetime(d.year, d.month, d.day)
+            long = dt.strftime("%a, %d %b %Y")
 
-    return dt_date.strftime("%d %b %Y"), long, dt_date
+    return dt.strftime("%d %b %Y"), long, dt
 
 # Load markdown post
 def load_post(path: Path):
@@ -105,7 +104,7 @@ for file in POSTS_DIR.glob("*.md"):
     (DIST / "post" / f"{post['slug']}.html").write_text(output)
 
 # Sort posts (NEWEST FIRST)
-posts.sort(key=lambda x: x["date_raw"] or date.min, reverse=True)
+posts.sort(key=lambda x: x["date_raw"] or datetime.min, reverse=True)
 
 # Build index
 tags = sorted({post["tag"] for post in posts if post["tag"]})
