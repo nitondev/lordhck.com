@@ -23,7 +23,7 @@ STATIC_DIR = Path("static")
 if DIST.exists():
     shutil.rmtree(DIST)
 
-(DIST / "posts").mkdir(parents=True, exist_ok=True)
+(DIST / "post").mkdir(parents=True, exist_ok=True)
 (DIST / "static").mkdir(parents=True, exist_ok=True)
 
 # Date formatting (display)
@@ -63,7 +63,7 @@ def load_post(path: Path):
         "tag": meta.get("tag", "untagged"),
         "slug": path.stem,
         "content": html,
-        "url": f"/posts/{path.stem}.html"
+        "url": f"/post/{path.stem}.html"
     }
 
 # Resolve commit hash
@@ -91,7 +91,7 @@ for file in POSTS_DIR.glob("*.md"):
         commit_full=commit_full
     )
 
-    (DIST / "posts" / f"{post['slug']}.html").write_text(output)
+    (DIST / "post" / f"{post['slug']}.html").write_text(output)
 
 # Sort posts (NEWEST FIRST)
 posts.sort(key=lambda x: x["date_raw"] or date.min, reverse=True)
