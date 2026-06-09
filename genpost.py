@@ -45,7 +45,7 @@ def load_post(path: Path):
         "date": formatted_date,
         "date_long": formatted_date_long,
         "date_raw": raw_date,
-        "tag": meta.get("tag", "untagged"),
+        "tags": [t.strip() for t in str(meta.get("tag", "untagged")).split(",")],
         "slug": path.stem,
         "content": html,
         "url": f"/post/{path.stem}.html"

@@ -42,13 +42,13 @@ posts.sort(key=lambda x: x["date_raw"] or datetime.min, reverse=True)
 build_posts(posts, DIST, post_template, commit_short, commit_full)
 
 # Build index
-tags = sorted({post["tag"] for post in posts if post["tag"]})
+tags = sorted({tag for post in posts for tag in post["tags"]})
 index_html = index_template.render(posts=posts, tags=tags, commit_short=commit_short, commit_full=commit_full)
 (DIST / "index.html").write_text(index_html)
 
 # Build tag pages
 for tag in tags:
-    tag_posts = [p for p in posts if p["tag"] == tag]
+    tag_posts = [p for p in posts if tag in p["tags"]]
     tag_dir = DIST / "tags" / tag
     tag_dir.mkdir(parents=True, exist_ok=True)
     print(f"Writing tag page: tags/{tag}")
