@@ -23,7 +23,7 @@ def build_feed(posts):
 <channel>
     <title>Lordhck</title>
     <link>https://lordhck.com</link>
-    <description>Personal blog</description>
+    <description>Personal website</description>
     {''.join(items)}
 </channel>
 </rss>

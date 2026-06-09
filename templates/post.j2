@@ -3,6 +3,11 @@
 {% block head %}
 <meta name="description" content="{{ title }}">
 <link rel="canonical" href="https://lordhck.com{{ url }}">
+<meta property="og:title" content="{{ title }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lordhck.com{{ url }}">
+<meta property="og:description" content="{{ title }}">
+<meta property="og:site_name" content="Lordhck">
 {% endblock %}
 {% block content %}
 <article>
