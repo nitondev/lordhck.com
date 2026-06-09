@@ -36,7 +36,7 @@ def load_post(path: Path):
         _, fm, body = text.split("---", 2)
         meta = yaml.safe_load(fm) or {}
 
-    html = markdown.markdown(body)
+    html = markdown.markdown(body, extensions=["codehilite", "fenced_code"])
 
     formatted_date, formatted_date_long, raw_date = format_date(meta.get("date"))
 

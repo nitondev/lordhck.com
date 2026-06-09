@@ -4,6 +4,7 @@ import shutil
 import subprocess
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader
+from pygments.formatters import HtmlFormatter
 
 from genpost import load_post, build_posts
 from genfeed import build_feed
@@ -64,6 +65,16 @@ shutil.copytree(STATIC_DIR, DIST / "static", dirs_exist_ok=True)
 # Copy CNAME for GitHub Pages
 if Path("CNAME").exists():
     shutil.copy("CNAME", DIST / "CNAME")
+
+# Generate syntax highlight CSS (lightbulb for light, one-dark for dark)
+light = HtmlFormatter(style="lightbulb").get_style_defs(".codehilite")
+dark_media = HtmlFormatter(style="one-dark").get_style_defs("html:not([data-theme=light]) .codehilite")
+dark_attr = HtmlFormatter(style="one-dark").get_style_defs("html[data-theme=dark] .codehilite")
+(DIST / "static" / "highlight.css").write_text(
+    f"{light}\n"
+    f"@media (prefers-color-scheme:dark){{\n{dark_media}\n}}\n"
+    f"{dark_attr}\n"
+)
 
 # Generate feed and sitemap
 (DIST / "feed.xml").write_text(build_feed(posts))
