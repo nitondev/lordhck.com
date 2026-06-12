@@ -1,6 +1,7 @@
 ---
-title: hello world
+title: Hello world
 date: 2026-06-02 16:17
+description: "Building a tiny static site generator in Python."
 tag: tech
 ---
 
