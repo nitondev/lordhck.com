@@ -14,7 +14,7 @@ It ended up being a bit more than just a simple [SSG](https://en.wikipedia.org/w
 It uses GitHub as the hosting layer, Docker to keep builds consistent, and a GitHub Actions workflow to run the Python build script and deploy everything automatically.
 
 The project is open-source, so you can view the code and the entire setup on GitHub here:  
-[lordhck.com source code](https://github.com/nitondev/lordhck.com)
+[lordhck.com source code](https://github.com/lordhck/lordhck.com)
 
 Markdown in, static site out.
 
