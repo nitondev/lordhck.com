@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1" name="viewport">
+<title>Build my own Linux?</title>
+<link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+<link rel="stylesheet" href="/static/site.css">
+<link rel="stylesheet" href="/static/highlight.css">
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+
+<meta name="description" content="After years of thinking about it, I'm finally exploring what it takes to build a minimal Linux system from the ground up.">
+<link rel="canonical" href="https://lordhck.com/post/build-linux.html">
+<meta property="og:title" content="Build my own Linux?">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lordhck.com/post/build-linux.html">
+<meta property="og:description" content="After years of thinking about it, I'm finally exploring what it takes to build a minimal Linux system from the ground up.">
+<meta property="og:site_name" content="Lordhck">
+
+</head>
+<body>
+<nav>
+<p></p>
+<p class="g"><a href="/">λ</a>
+<span class="r">
+<a href="mailto:hey@lordhck.com">hey@lordhck.com</a>
+(<a href="/feed.xml">RSS</a>)
+</span>
+</p>
+</nav>
+
+<article>
+<br>
+  <p><em>Fri, 12 Jun 2026, 17:23</em></p>
+  <h1>Build my own Linux?</h1>
+<p>I've been using Linux for almost 15 years now, and for a very long time I've had the idea of building my own distro.</p>
+<p>Well, maybe not a full distro.</p>
+<p>At least a minimal bootable Linux system.</p>
+<p>I've been thinking about it for months.</p>
+<p>Actually, that's not true.</p>
+<p>Years.</p>
+<p>So I finally started digging into how Linux systems are put together, and honestly, it seems surprisingly simple once you strip away all the abstractions.</p>
+<p>Most of us nerds already know this, but Linux itself is just the kernel.</p>
+<p>The kernel talks to the hardware and provides the interface that applications, services, and userspace tools rely on.</p>
+<p>The rest is userspace.</p>
+<p>A root filesystem, a bunch of directories, configuration files, permissions, libraries, and programs glued together into something usable.</p>
+<p>When you look at it that way, it suddenly feels a lot less magical.</p>
+<p>Two tools that caught my attention are:</p>
+<p><code>pacstrap</code> can bootstrap a minimal Arch system into a directory, while 
+<code>debootstrap</code> does roughly the same thing for Debian-based systems.</p>
+<p>Both seem like excellent starting points if the goal is to understand what is actually required to get a Linux system up and running.</p>
+<p>The more I read about it, the more tempting the idea becomes.</p>
+<p>Maybe it's finally time to stop thinking about it and actually build something.</p>
+<p>Oh, btw.</p>
+<p>Cheers, it's Friday. 🍺</p>
+</article>
+
+<footer>
+<p class="center">© 2026, Lord J. Hackwell, Version <a href="https://github.com/nitondev/lordhck.com/commit/342d28605a2804520e410bd98cf8c28b7cee9147">342d286</a></p>
+<p class="center"><button id="theme-toggle" aria-label="Toggle dark mode"><svg id="icon-off" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M11 4a4 4 0 0 1 0 8H8a5 5 0 0 0 2-4 5 5 0 0 0-2-4zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8M0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5"/></svg><svg id="icon-on" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="display:none"><path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"/></svg> dark mode</button></p>
+</footer>
+<script src="/static/site.js"></script>
+</body>
+</html>
