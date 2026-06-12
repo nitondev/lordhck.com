@@ -40,8 +40,15 @@ def load_post(path: Path):
 
     formatted_date, formatted_date_long, raw_date = format_date(meta.get("date"))
 
+    title = meta.get("title", path.stem)
+
+    description = (meta.get("description") or "").strip()
+    if not description:
+        raise ValueError(f"{path.name}: missing required 'description' in frontmatter")
+
     return {
-        "title": meta.get("title", path.stem),
+        "title": title,
+        "description": description,
         "date": formatted_date,
         "date_long": formatted_date_long,
         "date_raw": raw_date,
@@ -57,6 +64,7 @@ def build_posts(posts, dist, template, commit_short, commit_full):
         print(f"Writing post: {post['slug']}.html")
         output = template.render(
             title=post["title"],
+            description=post["description"],
             date=post["date_long"],
             content=post["content"],
             url=post["url"],
